@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luma Studio</title>
+  <style>
+    /* — Reset & Temel — */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: sans-serif; color:#150e60; }
+    h1,h2,p,ul { margin:0; }
+    ul { list-style:none; }
+
+    /* — Hero Bölümü — */
+    #hero {
+      background:#150e60;
+      color:#fdfff4;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+    }
+    #hero h1 { font-size:5rem; display:flex; }
+    #hero h1 span { display:inline-block; opacity:0; }
+    #hero p { margin-top:1rem; font-size:1.2rem; max-width:600px; text-align:center; opacity:0; }
+
+    /* — İstatistikler — */
+    #stats {
+      display:flex;
+      justify-content:center;
+      background:#fff;
+      padding:4rem 1rem;
+      gap:2rem;
+    }
+    .stat-item {
+      flex:1;
+      text-align:center;
+      font-size:1.5rem;
+      opacity:0;
+      transform:translateY(20px);
+    }
+
+    /* — Hizmetler — */
+    #services {
+      display:flex;
+      justify-content:center;
+      background:#f5f5f5;
+      padding:3rem 1rem;
+      gap:3rem;
+    }
+    #services li { cursor:pointer; transition: transform .3s ease; }
+    #services li:hover { transform: scale(1.05); }
+
+    /* — Uzmanlık Başlıkları — */
+    #expertise {
+      display:flex;
+      justify-content:center;
+      background:#fff;
+      padding:3rem 1rem;
+      gap:4rem;
+    }
+    #expertise h2 { font-size:2rem; overflow:hidden; }
+    #expertise h2 span {
+      display:inline-block;
+      transform: translateY(100%);
+      opacity:0;
+    }
+
+    /* — Animasyon Tanımları — */
+    @keyframes slideInLeft  { from {transform:translateX(-100%);opacity:0;} to {transform:translateX(0);opacity:1;} }
+    @keyframes slideInRight { from {transform:translateX(100%);opacity:0;} to {transform:translateX(0);opacity:1;} }
+    @keyframes fadeIn       { to { opacity:1; } }
+    @keyframes fadeUp       { to { opacity:1; transform:translateY(0); } }
+    @keyframes slideUp      { to { opacity:1; transform:translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div id="hero">
+    <h1><span id="luma">Luma</span><span id="studio">Studio</span></h1>
+    <p id="tagline">Illuminating brand journeys through thoughtful digital content and strategic clarity.</p>
+  </div>
+
+  <!-- STATİSTİKLER -->
+  <div id="stats">
+    <div class="stat-item">5+ Years Experience</div>
+    <div class="stat-item">50+ Happy Brands</div>
+    <div class="stat-item">100+ Projects</div>
+  </div>
+
+  <!-- HİZMETLER -->
+  <ul id="services">
+    <li>Social media management</li>
+    <li>Brand Strategy</li>
+    <li>Creative Consulting</li>
+  </ul>
+
+  <!-- UZMANLIK -->
+  <div id="expertise">
+    <h2><span>Design</span></h2>
+    <h2><span>Strategy</span></h2>
+    <h2><span>Marketing</span></h2>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero animasyonu
+      document.getElementById('luma').style.animation   = 'slideInLeft  1s ease-out forwards';
+      document.getElementById('studio').style.animation = 'slideInRight 1s ease-out forwards';
+      setTimeout(() => {
+        document.getElementById('tagline').style.animation = 'fadeIn 1s ease-out forwards';
+      }, 1000);
+
+      // İstatistikler
+      const stats = document.querySelectorAll('.stat-item');
+      new IntersectionObserver((entries, obs) => {
+        if (!entries[0].isIntersecting) return;
+        stats.forEach((el,i) => {
+          el.style.animation      = 'fadeUp .6s ease-out forwards';
+          el.style.animationDelay = `${(i+1)*.3}s`;
+        });
+        obs.disconnect();
+      }, { threshold:.5 }).observe(document.getElementById('stats'));
+
+      // Uzmanlık başlıkları
+      const spans = document.querySelectorAll('#expertise h2 span');
+      new IntersectionObserver((entries, obs) => {
+        if (!entries[0].isIntersecting) return;
+        spans.forEach((el,i) => {
+          el.style.animation      = 'slideUp .5s ease-out forwards';
+          el.style.animationDelay = `${(i+1)*.3}s`;
+        });
+        obs.disconnect();
+      }, { threshold:.5 }).observe(document.getElementById('expertise'));
+    });
+  </script>
+
+</body>
+</html>
